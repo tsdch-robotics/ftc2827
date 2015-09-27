@@ -84,7 +84,6 @@ public class PushBotHardware extends OpMode
     // The system calls this member when the class is instantiated.
     //--------
     public PushBotHardware()
-
     {
         //
         // Initialize base classes.
