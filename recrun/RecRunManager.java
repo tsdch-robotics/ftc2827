@@ -1,7 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.recrun;
 
-import java.util.*
-import java.io.*
+import java.util.*;
+import java.io.*;
 
 public class RecRunManager
 {
@@ -18,7 +18,7 @@ public class RecRunManager
 
     public static RecRunManager getManager(){
 	if(instance == null){
-	    instance = new RecRunManager;
+	    instance = new RecRunManager();
 	}
 	return instance;
     }
@@ -36,7 +36,7 @@ public class RecRunManager
 	}
     }
     
-    public setFileName(string name){
+    public void setFileName(string name){
 	this.name = name;
     }
     File getFile(){

@@ -1,7 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.recrun;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import java.lang.Math.*
+import java.lang.Math.*;
 
 public class RecRunOpMode extends OpMode {
 
