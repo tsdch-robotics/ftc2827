@@ -22,10 +22,10 @@ public class RecRunOpMode extends OpMode {
     }
 
     public void record(int command, double value){
-	if(abs(current.value - value) > threshold || command != current.command){
+	if(Math.abs(current.value - value) > threshold || command != current.command){
 	    recrun.push(new RecRunNode(current.command,
 				       current.value,
-				       System.nanoTime - current.duration));
+				       System.nanoTime() - current.duration));
 	    current.command = command;
 	    current.value = value;
 	    current.duration = System.nanoTime();
@@ -38,4 +38,7 @@ public class RecRunOpMode extends OpMode {
 	}
 	return current;
     }
+
+    public void loop(){} // Java sux
+    public void init(){}
 }

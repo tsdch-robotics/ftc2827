@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 //import com.qualcomm.ftcrobotccontroller.opmodes.recrun.*;
 
-public class TestBotHardware //extends RecRunOpMode
+public class TestBotHardware extends OpMode//extends RecRunOpMode
 {
     DcMotorController motor_controller;
     DcMotor left_motor;

@@ -2,12 +2,13 @@ package com.qualcomm.ftcrobotcontroller.opmodes.recrun;
 
 import java.util.*;
 import java.io.*;
+import android.os.Environment;
 
 public class RecRunManager
 {
     List list;
     int index;
-    string name;
+    String name;
     private static RecRunManager instance = null;
     private RecRunManager(){
 	list = new ArrayList<RecRunNode>();
@@ -26,9 +27,9 @@ public class RecRunManager
 	list.add(index, record);
 	index++;
     }
-    public RecRunNode getNxt(){
+    public RecRunNode getNxt() throws RecRunDoneException{
 	if(index > list.size()){
-	    RecRunNode ret = list.remove(index);
+	    RecRunNode ret = (RecRunNode) list.remove(index);
 	    index++;
 	    return ret;
 	} else {
@@ -36,29 +37,39 @@ public class RecRunManager
 	}
     }
     
-    public void setFileName(string name){
+    public void setFileName(String name){
 	this.name = name;
     }
     File getFile(){
-	File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS, name);
+	File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), name);
 
 	return file;
     }
     
     void writeFile(){
-	FileOutputStream fos = new FileOutputStream(this.getFile());
-	ObjectOutputStream oos = new ObjectOutputStream(fos);
-	oos.writeObject(list);
+	try {
+	    FileOutputStream fos = new FileOutputStream(this.getFile());
+	    ObjectOutputStream oos = new ObjectOutputStream(fos);
+	    oos.writeObject(list);
 
-	oos.close();
+	    oos.close();
+	} catch(IOException e){
+	    //do important stuff
+	}
     }
     
     void readFile(){
-	FileInputStream fis = new FileInputStream(this.getFile());
-	ObjectInputStream ois = new ObjectInputStream(fis);
-	list = (ArrayList<RecRunNode>) ois.readObject();
+	try{
+	    FileInputStream fis = new FileInputStream(this.getFile());
+	    ObjectInputStream ois = new ObjectInputStream(fis);
+	    list = (ArrayList<RecRunNode>) ois.readObject();
 
-	ois.close();
+	    ois.close();
+	} catch(IOException e){
+	    //do more important stuff
+	} catch(Exception o){
+	    //OBJECT NOT FOUND
+	}
     }
 }
 
