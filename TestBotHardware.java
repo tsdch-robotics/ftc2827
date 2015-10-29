@@ -3,9 +3,9 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-//import com.qualcomm.ftcrobotccontroller.opmodes.recrun.*;
+import com.qualcomm.ftcrobotcontroller.opmodes.recrun.RecRunOpMode;
 
-public class TestBotHardware extends OpMode//extends RecRunOpMode
+public class TestBotHardware extends RecRunOpMode
 {
     DcMotorController motor_controller;
     DcMotor left_motor;
