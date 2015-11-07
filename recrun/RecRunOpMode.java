@@ -44,6 +44,14 @@ public class RecRunOpMode extends OpMode {
 	return current;
     }
 
+    public void loadFile() throws Exception{
+	recrun.readFile();
+    }
+
+    public void writeFile() throws Exception{
+	recrun.writeFile();
+    }
+
     public void loop(){} // Java sux
     public void init(){}
 }

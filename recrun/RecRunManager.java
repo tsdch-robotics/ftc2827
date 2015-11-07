@@ -15,6 +15,7 @@ public class RecRunManager
 	index = 0;
 	Date date = new Date();
 	name = date.toString();
+	name += ".run";
     }
 
     public static RecRunManager getManager(){
@@ -41,35 +42,25 @@ public class RecRunManager
 	this.name = name;
     }
     File getFile(){
-	File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), name);
+	File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), name);
 
 	return file;
     }
     
-    void writeFile(){
-	try {
-	    FileOutputStream fos = new FileOutputStream(this.getFile());
-	    ObjectOutputStream oos = new ObjectOutputStream(fos);
-	    oos.writeObject(list);
+    void writeFile() throws Exception{
+	FileOutputStream fos = new FileOutputStream(this.getFile());
+	ObjectOutputStream oos = new ObjectOutputStream(fos);
+	oos.writeObject(list);
 
 	    oos.close();
-	} catch(IOException e){
-	    //do important stuff
-	}
     }
     
-    void readFile(){
-	try{
-	    FileInputStream fis = new FileInputStream(this.getFile());
-	    ObjectInputStream ois = new ObjectInputStream(fis);
-	    list = (ArrayList<RecRunNode>) ois.readObject();
+    void readFile() throws Exception{
+	FileInputStream fis = new FileInputStream(this.getFile());
+	ObjectInputStream ois = new ObjectInputStream(fis);
+	list = (ArrayList<RecRunNode>) ois.readObject();
 
-	    ois.close();
-	} catch(IOException e){
-	    //do more important stuff
-	} catch(Exception o){
-	    //OBJECT NOT FOUND
-	}
+	ois.close();
     }
 }
 
