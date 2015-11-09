@@ -7,6 +7,7 @@ public class TestRecordOpMode extends TestBotHardware{
     public TestRecordOpMode(){
 	super();
 	telemetry.addData("02", "contructor");
+	setName("test.rec");
     }
     
     public void loop(){
@@ -28,7 +29,7 @@ public class TestRecordOpMode extends TestBotHardware{
 	  3 - rot left
 	  4 - turn right
 	  5 - turn left
-	  6 - stop
+	  6 - back
 	 */
 	if(Math.abs(l_value) > deadzone || Math.abs(r_value) > deadzone){
 	    if(l_value > 0 && r_value > 0){
@@ -48,6 +49,9 @@ public class TestRecordOpMode extends TestBotHardware{
 	    right_motor.setPower(r_value);
 	} else {
 	    command = 0;
+	    l_value = 0.0f;
+	    r_value = 0.0f;
+
  	    left_motor.setPower(0.0);
 	    right_motor.setPower(0.0);
 	}

@@ -8,7 +8,7 @@ public class RecRunOpMode extends OpMode {
     private RecRunManager recrun;
     private double threshold = 0.1;
     private long startTime = 0;
-    private RecRunNode current;
+    protected RecRunNode current;
 
     public RecRunOpMode(){
 	super();
@@ -19,6 +19,10 @@ public class RecRunOpMode extends OpMode {
 
     public void setThreshold(double threshold){
 	this.threshold = threshold;
+    }
+
+    public void setName(String name){
+	recrun.setFileName(name);
     }
 
     public void record(int command, double lvalue, double rvalue){
@@ -37,11 +41,10 @@ public class RecRunOpMode extends OpMode {
 	}
     }
 
-    public RecRunNode nextNode() throws RecRunDoneException{
+    public void nextNode() throws RecRunDoneException{
 	if(startTime + current.duration > System.nanoTime()){
 	    current = recrun.getNxt();
 	}
-	return current;
     }
 
     public void loadFile() throws Exception{
