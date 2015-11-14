@@ -53,6 +53,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("TestBotManual", TestBotManual.class);
     manager.register("RECORD", TestRecordOpMode.class);
     manager.register("RUN", TestRunOpMode.class);
-
+    manager.register("ScrimmageManual", ScrimmageManual.class);
   }
 }
