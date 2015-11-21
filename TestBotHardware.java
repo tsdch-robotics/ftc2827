@@ -12,7 +12,7 @@ public class TestBotHardware extends RecRunOpMode
     DcMotor right_motor;
 
     public TestBotHardware(){
-
+	super();
     }
     public void init(){
 	motor_controller = hardwareMap.dcMotorController.get("driveController");

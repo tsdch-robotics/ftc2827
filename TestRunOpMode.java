@@ -1,36 +1,41 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.opmodes.recrun.RecRunDoneException;
-
 public class TestRunOpMode extends TestBotHardware {
 
-    boolean running;
+    boolean running = true;
+    boolean ioerror = false;
+    String ioer;
     public TestRunOpMode(){
 	super();
 	telemetry.addData("02", "constructor starting ...");
-	running = true;
+	setName("test.rec");
 	try{
 	    loadFile();
 	} catch(Exception e){
-	    telemetry.addData("03", "exe: " + e.toString());
+	    ioerror = true;
+	    ioer = e.toString();
 	}
-	setName("test.rec");
-
 	telemetry.addData("02", "constructor done");
     }
 
     public void loop(){
-	while(running){
+	telemetry.addData("02", "loop starting ... ");
+	telemetry.addData("01", "size :" + getListSize());
+	if(ioerror){
+	    telemetry.addData("02", "ioerror: " + ioer);
+	}else if(running){
 	    try{
 		nextNode();
-
+		telemetry.addData("01", "command: " + current.command + " " + nodes);
 		if(current.command >= 0 && current.command <= 6){
 		    left_motor.setPower(current.lvalue);
 		    right_motor.setPower(current.rvalue);
 		}
-	    } catch (RecRunDoneException e){
+	    } catch (IndexOutOfBoundsException e){
 		running = false;
 	    }
+	} else {
+	    telemetry.addData("02", "RecRunDone");
 	}
     }
 }
