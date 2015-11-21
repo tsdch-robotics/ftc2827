@@ -10,8 +10,8 @@ public class ScrimmageManual extends ScrimmageHardware {
 
     public void loop() {
 
-	float l_power = gamepad1.left_stick_y;
-	float r_power = gamepad1.right_stick_y;
+	float r_power = gamepad1.left_stick_y;
+	float l_power = gamepad1.right_stick_y;
 
 	l_power = Range.clip(l_power, -1, 1);
 	r_power = Range.clip(r_power, -1, 1);
