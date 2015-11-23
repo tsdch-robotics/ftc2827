@@ -19,8 +19,23 @@ public class ScrimmageHardware extends OpMode
     Servo left_hook;
     Servo right_hook;
 
+    Servo left_climber;
+    Servo right_climber;
+    boolean left_climb_out = false;
+    boolean right_climb_out = false;
+
     public ScrimmageHardware() {
 	
+    }
+
+    public void toggleLeftClimber() {
+	left_climber.setPosition(left_climb_out ? 0 : 0.5);
+	left_climb_out = !left_climb_out;
+    }
+
+    public void toggleRightClimber() {
+	right_climber.setPosition(right_climb_out ? 0 : 0.5);
+	right_climb_out = !right_climb_out;
     }
 
     public void init() {
@@ -29,7 +44,7 @@ public class ScrimmageHardware extends OpMode
 
 	left_drive = hardwareMap.dcMotor.get("leftDrive");
 	right_drive = hardwareMap.dcMotor.get("rightDrive");
-	right_drive.setDirection(DcMotor.Direction.REVERSE);
+	left_drive.setDirection(DcMotor.Direction.REVERSE);
 
 	left_pullup = hardwareMap.dcMotor.get("leftPullup");
 	right_pullup = hardwareMap.dcMotor.get("rightPullup");
@@ -37,6 +52,8 @@ public class ScrimmageHardware extends OpMode
 
 	left_hook = hardwareMap.servo.get("leftHook");
 	right_hook = hardwareMap.servo.get("rightHook");
+	left_climber = hardwareMap.servo.get("leftClimber");
+	right_climber = hardwareMap.servo.get("rightClimber");
     }
 
     public void start() {
