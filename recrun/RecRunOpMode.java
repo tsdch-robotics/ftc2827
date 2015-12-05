@@ -9,11 +9,14 @@ public class RecRunOpMode extends OpMode {
     private double threshold = 0.1;
     private long startTime = 0;
     protected RecRunNode current;
+    protected int nodes = 0;
 
     public RecRunOpMode(){
 	super();
 	recrun = RecRunManager.getManager();
+	recrun.reRec();
 	current = new RecRunNode(0, 0.0, 0.0, 0);
+	startTime = System.nanoTime();
 	
     }
 
@@ -26,25 +29,31 @@ public class RecRunOpMode extends OpMode {
     }
 
     public void record(int command, double lvalue, double rvalue){
-	if(Math.abs(current.rvalue - rvalue) > threshold || 
-	   Math.abs(current.lvalue - lvalue) > threshold || 
+	if((Math.abs(current.rvalue - rvalue) > threshold) || 
+	   (Math.abs(current.lvalue - lvalue) > threshold) ||
 	   command != current.command){
 
-	    recrun.push(new RecRunNode(current.command,
+	   recrun.push(new RecRunNode(current.command,
 				       current.lvalue,
 				       current.rvalue,
-				       System.nanoTime() - current.duration));
+				       System.nanoTime() - startTime));
 	    current.command = command;
 	    current.rvalue = rvalue;
 	    current.lvalue = lvalue;
-	    current.duration = System.nanoTime();
+	    startTime = System.nanoTime();
 	}
     }
 
-    public void nextNode() throws RecRunDoneException{
-	if(startTime + current.duration > System.nanoTime()){
+    public void nextNode() throws IndexOutOfBoundsException{
+	if(startTime + current.duration < System.nanoTime()){
 	    current = recrun.getNxt();
+	    startTime = System.nanoTime();
+	    nodes++;
 	}
+    }
+
+    public int getListSize(){
+	return recrun.getArrayLength();
     }
 
     public void loadFile() throws Exception{

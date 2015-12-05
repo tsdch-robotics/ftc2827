@@ -1,13 +1,13 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
+import com.qualcomm.ftcrobotcontroller.opmodes.recrun.*;
 
-public class TestRunOpMode extends TestBotHardware {
+public class Run extends RecRunOpMode {
 
     boolean running = true;
     boolean ioerror = false;
     String ioer;
-    public TestRunOpMode(){
+    public Run(){
 	super();
-	telemetry.addData("02", "constructor starting ...");
 	setName("test.rec");
 	try{
 	    loadFile();
@@ -15,21 +15,18 @@ public class TestRunOpMode extends TestBotHardware {
 	    ioerror = true;
 	    ioer = e.toString();
 	}
-	telemetry.addData("02", "constructor done");
     }
 
     public void loop(){
-	telemetry.addData("02", "loop starting ... ");
-	telemetry.addData("01", "size :" + getListSize());
+	//telemetry.addData("03", "size :" + getListSize());
 	if(ioerror){
-	    telemetry.addData("02", "ioerror: " + ioer);
+	    telemetry.addData("03", "ioerror: " + ioer);
 	}else if(running){
 	    try{
 		nextNode();
-		telemetry.addData("01", "command: " + current.command + " " + nodes);
+		telemetry.addData("02", "command: " + current.command + " " + current.duration);
 		if(current.command >= 0 && current.command <= 6){
-		    left_motor.setPower(current.lvalue);
-		    right_motor.setPower(current.rvalue);
+		    telemetry.addData("01", "l_v: " + current.lvalue + "\tr_v: " + current.rvalue);
 		}
 	    } catch (IndexOutOfBoundsException e){
 		running = false;

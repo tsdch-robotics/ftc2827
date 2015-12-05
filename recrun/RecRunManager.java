@@ -6,7 +6,7 @@ import android.os.Environment;
 
 public class RecRunManager
 {
-    List list;
+    List<RecRunNode> list;
     int index;
     String name;
     private static RecRunManager instance = null;
@@ -15,7 +15,16 @@ public class RecRunManager
 	index = 0;
 	Date date = new Date();
 	name = date.toString();
-	name += ".run";
+	name += ".rec";
+    }
+    
+    public int getArrayLength(){
+	return list.size();
+    }
+
+    public void reRec(){
+	index = 0;
+	list = new ArrayList<RecRunNode>();
     }
 
     public static RecRunManager getManager(){
@@ -28,13 +37,14 @@ public class RecRunManager
 	list.add(index, record);
 	index++;
     }
-    public RecRunNode getNxt() throws RecRunDoneException{
-	if(index > list.size()){
-	    RecRunNode ret = (RecRunNode) list.remove(index);
+    public RecRunNode getNxt() throws IndexOutOfBoundsException{
+	try{
+	    RecRunNode ret = list.get(index);
 	    index++;
 	    return ret;
-	} else {
-	    throw new RecRunDoneException();
+	} catch(IndexOutOfBoundsException e){
+	    index = 0;
+	    throw e;
 	}
     }
     
@@ -48,11 +58,13 @@ public class RecRunManager
     }
     
     void writeFile() throws Exception{
-	FileOutputStream fos = new FileOutputStream(this.getFile());
+	File file = this.getFile();
+	file.delete();
+	FileOutputStream fos = new FileOutputStream(file);
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
 	oos.writeObject(list);
-
-	    oos.close();
+	oos.close();
+	index = 0;
     }
     
     void readFile() throws Exception{
