@@ -14,6 +14,7 @@ public class RecRunOpMode extends OpMode {
     public RecRunOpMode(){
 	super();
 	recrun = RecRunManager.getManager();
+	recrun.reRec();
 	current = new RecRunNode(0, 0.0, 0.0, 0);
 	startTime = System.nanoTime();
 	
@@ -28,19 +29,18 @@ public class RecRunOpMode extends OpMode {
     }
 
     public void record(int command, double lvalue, double rvalue){
-	if((Math.abs(current.rvalue - rvalue) > threshold
-	    && command != current.command) || 
-	   (Math.abs(current.lvalue - lvalue) > threshold 
-	    && command != current.command)){
+	if((Math.abs(current.rvalue - rvalue) > threshold) || 
+	   (Math.abs(current.lvalue - lvalue) > threshold) ||
+	   command != current.command){
 
 	   recrun.push(new RecRunNode(current.command,
 				       current.lvalue,
 				       current.rvalue,
-				       System.nanoTime() - current.duration));
+				       System.nanoTime() - startTime));
 	    current.command = command;
 	    current.rvalue = rvalue;
 	    current.lvalue = lvalue;
-	    current.duration = System.nanoTime();
+	    startTime = System.nanoTime();
 	}
     }
 

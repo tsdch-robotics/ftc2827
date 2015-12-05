@@ -22,6 +22,11 @@ public class RecRunManager
 	return list.size();
     }
 
+    public void reRec(){
+	index = 0;
+	list = new ArrayList<RecRunNode>();
+    }
+
     public static RecRunManager getManager(){
 	if(instance == null){
 	    instance = new RecRunManager();
@@ -33,7 +38,14 @@ public class RecRunManager
 	index++;
     }
     public RecRunNode getNxt() throws IndexOutOfBoundsException{
-	return list.remove(0);
+	try{
+	    RecRunNode ret = list.get(index);
+	    index++;
+	    return ret;
+	} catch(IndexOutOfBoundsException e){
+	    index = 0;
+	    throw e;
+	}
     }
     
     public void setFileName(String name){
@@ -52,6 +64,7 @@ public class RecRunManager
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
 	oos.writeObject(list);
 	oos.close();
+	index = 0;
     }
     
     void readFile() throws Exception{

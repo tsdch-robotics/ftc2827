@@ -1,10 +1,11 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.ftcrobotcontroller.opmodes.recrun.*;
 
-public class TestRecordOpMode extends TestBotHardware{
+public class Record extends RecRunOpMode{
     
-    public TestRecordOpMode(){
+    public Record(){
 	super();
 	//telemetry.addData("02", "contructor");
 	setName("test.rec");
@@ -45,19 +46,17 @@ public class TestRecordOpMode extends TestBotHardware{
 	    } else {
 		command = 6;
 	    }
-	    left_motor.setPower(l_value);
-	    right_motor.setPower(r_value);
 	} else {
 	    command = 0;
 	    l_value = 0.0f;
 	    r_value = 0.0f;
-
- 	    left_motor.setPower(0.0);
-	    right_motor.setPower(0.0);
 	}
-	
+
+	//telemetry.addData("02", "cmd:\t" + command);
+	telemetry.addData("01", "l_v:\t" + l_value + "\tr_v:\t" + r_value);
 	//telemetry.addData("01", "command: " + command);
 	record(command, l_value, r_value);
+
 
     }
     public void stop(){
@@ -68,4 +67,5 @@ public class TestRecordOpMode extends TestBotHardware{
 	}
     }
 }
+
 
