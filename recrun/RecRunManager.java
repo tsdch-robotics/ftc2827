@@ -25,6 +25,9 @@ public class RecRunManager
     public void reRec(){
 	index = 0;
 	list = new ArrayList<RecRunNode>();
+	Date date = new Date();
+	name = date.toString();
+	name += ".rec";
     }
 
     public static RecRunManager getManager(){
@@ -58,7 +61,7 @@ public class RecRunManager
     }
     
     void writeFile() throws Exception{
-	File file = this.getFile();
+	File file = getFile();
 	file.delete();
 	FileOutputStream fos = new FileOutputStream(file);
 	ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -68,7 +71,7 @@ public class RecRunManager
     }
     
     void readFile() throws Exception{
-	FileInputStream fis = new FileInputStream(this.getFile());
+	FileInputStream fis = new FileInputStream(getFile());
 	ObjectInputStream ois = new ObjectInputStream(fis);
 	list = (ArrayList<RecRunNode>) ois.readObject();
 
