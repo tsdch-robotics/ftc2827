@@ -8,7 +8,6 @@ public class Record extends RecRunOpMode{
     public Record(){
 	super();
 	//telemetry.addData("02", "contructor");
-	setName("test.rec");
     }
     
     public void loop(){
