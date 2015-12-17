@@ -1,5 +1,8 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
+
 import com.qualcomm.ftcrobotcontroller.opmodes.recrun.*;
+import java.io.*;
+import android.os.Environment;
 
 public class Run extends RecRunOpMode {
 
@@ -8,7 +11,19 @@ public class Run extends RecRunOpMode {
     String ioer;
     public Run(){
 	super();
-	setName("test.rec");
+	File chosen = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "chosen.txt");
+	String name = "";
+	
+	try{
+	    InputStream fs = new FileInputStream(chosen);
+	    InputStreamReader isr = new InputStreamReader(fs);
+	    BufferedReader br = new BufferedReader(isr);
+	    name = br.readLine();
+	    fs.close();
+	} catch(Exception e){
+
+	}
+	setName(name);
 	try{
 	    loadFile();
 	} catch(Exception e){

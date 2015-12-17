@@ -14,8 +14,9 @@ public class RecRunManager
 	list = new ArrayList<RecRunNode>();
 	index = 0;
 	Date date = new Date();
-	name = date.toString();
-	name += ".rec";
+	name = date.getHours() + "-" 
+	    + date.getMinutes() + "-" 
+	    + date.getSeconds() + ".rec";
     }
     
     public int getArrayLength(){

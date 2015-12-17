@@ -13,6 +13,7 @@ public class RecRunChoose extends OpMode{
     int num;
     int index;
     boolean choosing;
+    boolean ischosen = false;
     boolean upressed;
     boolean dpressed;
 
@@ -35,6 +36,11 @@ public class RecRunChoose extends OpMode{
     public void loop(){
 
 	telemetry.addData("01", names[index]);
+	if(ischosen){
+	    telemetry.addData("02", "Chosen!");
+	} else {
+	    telemetry.addData("02", "Choosing...");
+	}
 	if(gamepad1.dpad_up && !upressed){
 	    index++;
 	    index %= num;
@@ -44,6 +50,7 @@ public class RecRunChoose extends OpMode{
 	    index %= num;
 	} else if(gamepad1.a){
 	    try{
+		ischosen = true;
 		PrintWriter pw = new PrintWriter(chosen);
 		pw.println(names[index]);
 		pw.close();
