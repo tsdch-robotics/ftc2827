@@ -7,7 +7,7 @@ public class Manual extends Hardware {
     boolean gamepad1_x_pressed = false;
     boolean gamepad1_b_pressed = false;
 
-    public ScrimmageManual(){
+    public Manual(){
 
     }
 
