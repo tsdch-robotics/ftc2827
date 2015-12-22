@@ -2,12 +2,12 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.util.Range;
 
-public class ScrimmageManual extends ScrimmageHardware {
+public class Manual extends Hardware {
 
     boolean gamepad1_x_pressed = false;
     boolean gamepad1_b_pressed = false;
 
-    public ScrimmageManual() {
+    public ScrimmageManual(){
 
     }
 
@@ -24,7 +24,7 @@ public class ScrimmageManual extends ScrimmageHardware {
 
 	if (!gamepad1_x_pressed && gamepad1.x) {
 	    toggleLeftClimber();
-	} 
+	}
 
 	if (!gamepad1_b_pressed && gamepad1.b) {
 	    toggleRightClimber();
@@ -32,7 +32,7 @@ public class ScrimmageManual extends ScrimmageHardware {
 
 	gamepad1_x_pressed = gamepad1.x;
 	gamepad1_b_pressed = gamepad1.b;
-	
+
 	telemetry.addData("lp", "Left Power" + l_power);
 	telemetry.addData("rp", "Right Power" + r_power);
     }

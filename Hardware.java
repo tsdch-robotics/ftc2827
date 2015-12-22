@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-public class ScrimmageHardware extends OpMode
+public class Hardware extends OpMode
 {
     DcMotorController drive_controller;
     DcMotorController pullup_controller;
@@ -18,13 +18,15 @@ public class ScrimmageHardware extends OpMode
 
     Servo left_hook;
     Servo right_hook;
+    Servo right_arm;
+    Servo left_arm;
 
     Servo left_climber;
     Servo right_climber;
     boolean left_climb_out = false;
     boolean right_climb_out = false;
 
-    public ScrimmageHardware() {
+    public Hardware() {
 	
     }
 
@@ -52,8 +54,12 @@ public class ScrimmageHardware extends OpMode
 
 	left_hook = hardwareMap.servo.get("leftHook");
 	right_hook = hardwareMap.servo.get("rightHook");
+
 	left_climber = hardwareMap.servo.get("leftClimber");
 	right_climber = hardwareMap.servo.get("rightClimber");
+
+	left_arm = hardwareMap.servo.get("leftArm");
+	right_arm = hardwareMap.servo.get("rightArm");
     }
 
     public void start() {
