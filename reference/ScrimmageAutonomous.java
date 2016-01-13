@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
   motor.setMode(DcMotorController.RunMode.RESET_ENCODERS);
  */
 
-public class ScrimmageAutonomous extends ScrimmageHardware {
+public class ScrimmageAutonomous extends Hardware {
 
     boolean running = true;
 

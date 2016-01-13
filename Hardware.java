@@ -25,18 +25,24 @@ public class Hardware extends OpMode
     Servo right_climber;
     boolean left_climb_out = false;
     boolean right_climb_out = false;
+    
+    double upPower = 1.0;
+    double downPower = -1.0;
+
+    double left_arm_pos = 0.0;
+    double right_arm_pos = 1.0;
 
     public Hardware() {
 	
     }
 
     public void toggleLeftClimber() {
-	left_climber.setPosition(left_climb_out ? 0 : 0.5);
+	left_climber.setPosition(left_climb_out ? 0 : 1.0);
 	left_climb_out = !left_climb_out;
     }
 
     public void toggleRightClimber() {
-	right_climber.setPosition(right_climb_out ? 0 : 0.5);
+	right_climber.setPosition(right_climb_out ? 0 : 1.0);
 	right_climb_out = !right_climb_out;
     }
 
@@ -57,9 +63,13 @@ public class Hardware extends OpMode
 
 	left_climber = hardwareMap.servo.get("leftClimber");
 	right_climber = hardwareMap.servo.get("rightClimber");
+	left_climber.scaleRange(0.0, 0.5);
+	right_climber.scaleRange(0.0, 0.5);
 
 	left_arm = hardwareMap.servo.get("leftArm");
 	right_arm = hardwareMap.servo.get("rightArm");
+	left_arm.scaleRange(0.0, 0.16);
+	right_arm.scaleRange(0.86, 1.0);
     }
 
     public void start() {
