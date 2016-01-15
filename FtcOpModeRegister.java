@@ -51,8 +51,8 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
     manager.register("NullOp", NullOp.class);
     //manager.register("TestBotManual", TestBotManual.class);
-    manager.register("REC", Record.class);
-    manager.register("RUN", Run.class);
+    manager.register("REC", Q1Record.class);
+    manager.register("RUN", Q1Run.class);
     manager.register("CHOOSE", RecRunChoose.class);
     manager.register("Manual", Manual.class);
     manager.register("Autonomous", Autonomous.class);

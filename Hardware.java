@@ -1,11 +1,11 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.ftcrobotcontroller.opmodes.recrun.*;
 
-public class Hardware extends OpMode
+public class Hardware extends RecRunOpMode
 {
     DcMotorController drive_controller;
     DcMotorController pullup_controller;
@@ -33,7 +33,7 @@ public class Hardware extends OpMode
     double right_arm_pos = 1.0;
 
     public Hardware() {
-	
+	super();
     }
 
     public void toggleLeftClimber() {
