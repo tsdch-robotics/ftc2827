@@ -82,11 +82,5 @@ public class Manual extends Hardware {
     }
     public void init(){
 	super.init();
-	left_climber.setPosition(0.0);
-	right_climber.setPosition(1.0);
-	left_arm.setPosition(0.0);
-	right_arm.setPosition(1.0);
-	left_hook.setPosition(0.5);
-	right_hook.setPosition(0.5);
     }
 }

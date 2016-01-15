@@ -63,13 +63,20 @@ public class Hardware extends OpMode
 
 	left_climber = hardwareMap.servo.get("leftClimber");
 	right_climber = hardwareMap.servo.get("rightClimber");
-	left_climber.scaleRange(0.0, 0.5);
-	right_climber.scaleRange(0.0, 0.5);
+	left_climber.scaleRange(0.0, 1.0);
+	right_climber.scaleRange(0.0, 1.0);
 
 	left_arm = hardwareMap.servo.get("leftArm");
 	right_arm = hardwareMap.servo.get("rightArm");
 	left_arm.scaleRange(0.0, 0.16);
 	right_arm.scaleRange(0.86, 1.0);
+
+	left_climber.setPosition(0.0);
+	right_climber.setPosition(1.0);
+	left_arm.setPosition(0.0);
+	right_arm.setPosition(1.0);
+	left_hook.setPosition(0.5);
+	right_hook.setPosition(0.5);
     }
 
     public void start() {
