@@ -61,7 +61,7 @@ public class Autonomous extends Hardware {
     public void loop() {
 	telemetry.addData("01", "Test");
 	if (running) {
-	    drive(1,1000,1000);
+	    //drive(1,1000,1000);
 	    running = false;
 	}
     }
