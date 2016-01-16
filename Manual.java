@@ -22,34 +22,34 @@ public class Manual extends Hardware {
 	right_drive.setPower(l_power);
 
 	//climbers
-	if (!gamepad1_x_pressed && gamepad1.x) {
+	if (!gamepad1_x_pressed && gamepad1.left_bumper) {
 	    toggleLeftClimber();
 	}
-	if (!gamepad1_b_pressed && gamepad1.b) {
+	if (!gamepad1_b_pressed && gamepad1.right_bumper) {
 	    toggleRightClimber();
 	}
 	
 	//arms
 	if(gamepad2.left_bumper){
-	    left_arm_pos += 0.01;
+	    left_arm_pos += 0.005;
 	    left_arm_pos = (left_arm_pos > 1.0 ? 1.0 : left_arm_pos);
 	} else if(gamepad2.left_trigger != 0.0){
-	    left_arm_pos -= 0.01;
+	    left_arm_pos -= 0.005;
 	    left_arm_pos = (left_arm_pos < 0.0 ? 0.0 : left_arm_pos);
 	}
 	if(gamepad2.right_bumper){
-	    right_arm_pos -= 0.01;
+	    right_arm_pos -= 0.005;
 	    right_arm_pos = (right_arm_pos < 0.0 ? 0.0 : right_arm_pos);
 	} else if(gamepad2.right_trigger != 0.0){
-	    right_arm_pos += 0.01;
+	    right_arm_pos += 0.005;
 	    right_arm_pos = (right_arm_pos > 1.0 ? 1.0 : right_arm_pos);
 	}
 
 	//pullup
-	if(gamepad1.y){
+	if(gamepad2.y){
 	    left_pullup.setPower(upPower);
 	    right_pullup.setPower(upPower);
-	} else if(gamepad1.a){
+	} else if(gamepad2.a){
 	    left_pullup.setPower(downPower);
 	    right_pullup.setPower(downPower);
 	} else {
@@ -62,8 +62,8 @@ public class Manual extends Hardware {
 	right_hook.setPosition(0.5 * (gamepad2.right_stick_y + 1.0));
 	
 	// update stuff
-	gamepad1_x_pressed = gamepad1.x;
-	gamepad1_b_pressed = gamepad1.b;
+	gamepad1_x_pressed = gamepad1.left_bumper;
+	gamepad1_b_pressed = gamepad1.right_bumper;
 
 	left_arm.setPosition(left_arm_pos);
 	right_arm.setPosition(right_arm_pos);
