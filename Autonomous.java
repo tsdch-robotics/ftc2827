@@ -12,6 +12,93 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 public class Autonomous extends Hardware {
-    public void init(){}
-    public void loop(){}
+
+    double motor_power = 0.0;
+    int num_targets_set = 0;
+    boolean target_reached = true;
+    int left_target = 0;
+    int right_target = 0;
+    boolean right_running = false;
+    boolean left_running = false;
+
+    public Autonomous() {
+
+    }
+
+    public void resetEncoders() {
+	left_drive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+	left_drive.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS );
+	right_drive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
+	right_drive.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS );
+ }
+
+    public void setTarget(int left, int right) {
+	left_target = left;
+	right_target = left;
+	right_running = true;
+	left_running = true;
+	++num_targets_set;
+	target_reached = false;
+	resetEncoders();
+    }
+
+    public void runMotors() {
+
+	int ERROR_MARGIN = 10;
+	double kP = 0.1;
+
+	if (left_running || right_running) {
+	    int left_error = left_target;// - left_drive.getCurrentPosition();
+	    int right_error = right_target;// - right_drive.getCurrentPosition();
+
+	    telemetry.addData("left encoder", left_drive.getCurrentPosition());
+
+	    if (Math.abs(left_error) > ERROR_MARGIN) {
+		double left_power = Range.clip(motor_power*kP*left_error,-1.0,1.0);
+		telemetry.addData("left power", left_power);
+		left_drive.setPower(left_power);
+	    } else {
+		left_running = false;
+		if (!right_running) {
+		    target_reached = true;
+		}
+	    }
+
+	    if (Math.abs(right_error) > ERROR_MARGIN) {
+		double right_power = Range.clip(motor_power*kP*left_error,-1.0,1.0);
+		telemetry.addData("right power", right_power);
+		right_drive.setPower(right_power);
+	    } else {
+		right_running = false;
+		if (!right_running) {
+		    target_reached = true;
+		}
+	    }
+	} else {
+	    left_drive.setPower(0);
+	    right_drive.setPower(0);
+	}
+    }
+
+    public void loop() {
+	telemetry.addData("Left power", left_drive.getPower());
+	telemetry.addData("Num targets", num_targets_set);
+	if (target_reached) {
+	    switch (num_targets_set) {
+	    case 0:
+		motor_power = 1.0;
+		setTarget(1000,1000);
+		break;
+	    }
+	}
+	runMotors();
+	//left_drive.setPower(1);
+    }
+
+    public void init_loop(){
+
+    }
+    public void init(){
+	super.init();
+    }
 }

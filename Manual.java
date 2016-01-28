@@ -28,23 +28,36 @@ public class Manual extends Hardware {
 	if (!gamepad1_b_pressed && gamepad1.right_bumper) {
 	    toggleRightClimber();
 	}
+
+	//plow
+	if (gamepad1.y) {
+	    right_plow.setPosition(0.0);
+	    left_plow.setPosition(1.0);
+	} else if (gamepad1.a) {
+	    right_plow.setPosition(1.0);
+	    left_plow.setPosition(0.0);
+	}
 	
+	final double ARM_POWER_UP = 0.3;
+	final double ARM_POWER_DOWN = -0.15;
+	double left_arm_power = 0;
+	double right_arm_power = 0;
+
 	//arms
-	if(gamepad2.left_bumper){
-	    left_arm_pos += 0.005;
-	    left_arm_pos = (left_arm_pos > 1.0 ? 1.0 : left_arm_pos);
-	} else if(gamepad2.left_trigger != 0.0){
-	    left_arm_pos -= 0.005;
-	    left_arm_pos = (left_arm_pos < 0.0 ? 0.0 : left_arm_pos);
+	if (gamepad2.left_bumper) {
+	    left_arm_power = ARM_POWER_UP;
+	} else if (gamepad2.left_trigger != 0.0) {
+	    left_arm_power = ARM_POWER_DOWN;
 	}
-	if(gamepad2.right_bumper){
-	    right_arm_pos -= 0.005;
-	    right_arm_pos = (right_arm_pos < 0.0 ? 0.0 : right_arm_pos);
-	} else if(gamepad2.right_trigger != 0.0){
-	    right_arm_pos += 0.005;
-	    right_arm_pos = (right_arm_pos > 1.0 ? 1.0 : right_arm_pos);
+
+	if (gamepad2.right_bumper) {
+	    right_arm_power = ARM_POWER_UP;
+	} else if (gamepad2.right_trigger != 0.0) {
+	    right_arm_power = ARM_POWER_DOWN;
 	}
-	//telemetry.add("02", "l: " + left_arm_pos + "\nr: " + right_arm_pos);
+	
+	right_arm.setPower(right_arm_power);
+	left_arm.setPower(left_arm_power);
 	//pullup
 	if(gamepad2.y){
 	    left_pullup.setPower(upPower);
@@ -65,15 +78,12 @@ public class Manual extends Hardware {
 	gamepad1_x_pressed = gamepad1.left_bumper;
 	gamepad1_b_pressed = gamepad1.right_bumper;
 
-	left_arm.setPosition(left_arm_pos);
-	right_arm.setPosition(right_arm_pos);
-
 	telemetry.addData("lp", "Left Power" + l_power);
 	telemetry.addData("rp", "Right Power" + r_power);
 	telemetry.addData("sv", //left_climber.getPosition() + " "
 			  //+ right_climber.getPosition() + " "
-			  left_arm.getPosition() + " "
-			  + right_arm.getPosition() + " ");
+			  left_arm.getPower() + " "
+			  + right_arm.getPower() + " ");
 			  // + left_hook.getPosition() + " "
 			  // + right_hook.getPosition());
     }
