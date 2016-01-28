@@ -16,10 +16,14 @@ public class Hardware extends RecRunOpMode
     DcMotor left_pullup;
     DcMotor right_pullup;
 
+    DcMotor right_arm;
+    DcMotor left_arm;
+
     Servo left_hook;
     Servo right_hook;
-    Servo right_arm;
-    Servo left_arm;
+
+    Servo left_plow;
+    Servo right_plow;
 
     Servo left_climber;
     Servo right_climber;
@@ -37,12 +41,12 @@ public class Hardware extends RecRunOpMode
     }
 
     public void toggleLeftClimber() {
-	left_climber.setPosition(left_climb_out ? 0 : 1.0);
+	left_climber.setPosition(left_climb_out ? 1.0 : 0.5);
 	left_climb_out = !left_climb_out;
     }
 
     public void toggleRightClimber() {
-	right_climber.setPosition(right_climb_out ? 0 : 1.0);
+	right_climber.setPosition(right_climb_out ? 0.0 : 0.5);
 	right_climb_out = !right_climb_out;
     }
 
@@ -61,20 +65,24 @@ public class Hardware extends RecRunOpMode
 	left_hook = hardwareMap.servo.get("leftHook");
 	right_hook = hardwareMap.servo.get("rightHook");
 
+	left_plow = hardwareMap.servo.get("leftPlow");
+	right_plow = hardwareMap.servo.get("rightPlow");
+	left_plow.scaleRange(0.45, 1.0);
+	right_plow.scaleRange(0.0, 0.75);
+        right_plow.setPosition(0.0);
+	left_plow.setPosition(1.0);
+
 	left_climber = hardwareMap.servo.get("leftClimber");
 	right_climber = hardwareMap.servo.get("rightClimber");
 	left_climber.scaleRange(0.0, 1.0);
 	right_climber.scaleRange(0.0, 1.0);
 
-	left_arm = hardwareMap.servo.get("leftArm");
-	right_arm = hardwareMap.servo.get("rightArm");
-	left_arm.scaleRange(0.0, 0.16);
-	right_arm.scaleRange(0.86, 1.0);
-
-	left_climber.setPosition(0.0);
-	right_climber.setPosition(1.0);
-	left_arm.setPosition(0.0);
-	right_arm.setPosition(1.0);
+	left_arm = hardwareMap.dcMotor.get("leftArm");
+	right_arm = hardwareMap.dcMotor.get("rightArm");
+	right_arm.setDirection(DcMotor.Direction.REVERSE);
+	
+	left_climber.setPosition(1.0);
+	right_climber.setPosition(0.0);
 	left_hook.setPosition(0.5);
 	right_hook.setPosition(0.5);
     }
