@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.Range;
 import java.io.*;
 import android.os.Environment;
 
-public class Q1Run extends Manual{
+public class Q1Run extends Hardware{
 
     boolean running = true;
     boolean ioerror = false;
@@ -40,6 +40,10 @@ public class Q1Run extends Manual{
 	    try{
 		nextNode();
 		switch(current.command){
+		case 0:
+		    left_drive.setPower(0.0);
+		    right_drive.setPower(0.0);
+		    break;
 		case 1:
 		    left_drive.setPower(current.lvalue);
 		    right_drive.setPower(current.rvalue);
@@ -68,6 +72,7 @@ public class Q1Run extends Manual{
 			right_arm_pos += 0.01;
 			right_arm_pos = (right_arm_pos > 1.0 ? 1.0 : right_arm_pos);
 		    }
+		    break;
 		}
 
 	    } catch (IndexOutOfBoundsException e){
@@ -77,4 +82,10 @@ public class Q1Run extends Manual{
 	    telemetry.addData("02", "RecRunDone");
 	}
     }
+    public void stop(){
+	super.stop();
+	left_drive.setPower(0.0);
+	right_drive.setPower(0.0);
+    }
 }
+

@@ -44,7 +44,7 @@ public class Manual extends Hardware {
 	    right_arm_pos += 0.005;
 	    right_arm_pos = (right_arm_pos > 1.0 ? 1.0 : right_arm_pos);
 	}
-
+	//telemetry.add("02", "l: " + left_arm_pos + "\nr: " + right_arm_pos);
 	//pullup
 	if(gamepad2.y){
 	    left_pullup.setPower(upPower);
