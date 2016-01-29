@@ -65,14 +65,20 @@ public class Manual extends Hardware {
 	} else if(gamepad2.a){
 	    left_pullup.setPower(downPower);
 	    right_pullup.setPower(downPower);
+	} else if (Math.abs(gamepad2.left_stick_y) > 0.1
+		   && Math.abs(gamepad2.right_stick_y) > 0.1) {
+	    left_pullup.setPower(-0.5*gamepad2.right_stick_y);
+	    right_pullup.setPower(-0.5*gamepad2.right_stick_y);
 	} else {
-	    left_pullup.setPower(0.0);
-	    right_pullup.setPower(0.0);
+	    left_pullup.setPower(0);
+	    right_pullup.setPower(0);
 	}
 
 	//hooks
 	left_hook.setPosition(0.5 * (-gamepad2.left_stick_y + 1.0));
 	right_hook.setPosition(0.5 * (gamepad2.right_stick_y + 1.0));
+	
+	
 	
 	// update stuff
 	gamepad1_x_pressed = gamepad1.left_bumper;
