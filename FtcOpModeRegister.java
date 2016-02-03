@@ -55,5 +55,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("RECORD", Q1Record.class);
     manager.register("RUN", Q1Run.class);
     manager.register("CHOOSE", RecRunChoose.class);
+    manager.register("TestAutonomous", TestAutonomous.class);
   }
 }
