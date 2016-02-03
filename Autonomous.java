@@ -92,7 +92,6 @@ public class Autonomous extends Hardware {
 	    }
 	}
 	runMotors();
-	//left_drive.setPower(1);
     }
 
     public void init_loop(){
