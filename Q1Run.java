@@ -40,37 +40,17 @@ public class Q1Run extends Hardware{
 	    try{
 		nextNode();
 		switch(current.command){
-		case 0:
-		    left_drive.setPower(0.0);
-		    right_drive.setPower(0.0);
-		    break;
 		case 1:
 		    left_drive.setPower(current.lvalue);
 		    right_drive.setPower(current.rvalue);
 		    break;
 		case 2:
 		    if(current.lvalue == 1.0){
-			toggleLeftClimber();
-		    } else {
-			toggleRightClimber();
-		    }
-		    break;
-		case 3:
-		    if(current.lvalue == 1.0){
-			left_arm_pos += 0.01;
-			left_arm_pos = (left_arm_pos > 1.0 ? 1.0 : left_arm_pos);
-		    } else {
-			left_arm_pos -= 0.01;
-			left_arm_pos = (left_arm_pos < 0.0 ? 0.0 : left_arm_pos);
-		    }
-		    break;
-		case 4:
-		    if(current.lvalue == 1.0){
-			right_arm_pos -= 0.01;
-			right_arm_pos = (right_arm_pos < 0.0 ? 0.0 : right_arm_pos);
-		    } else {
-			right_arm_pos += 0.01;
-			right_arm_pos = (right_arm_pos > 1.0 ? 1.0 : right_arm_pos);
+			right_plow.setPosition(0.0);
+			left_plow.setPosition(1.0);
+		    }else{
+			right_plow.setPosition(1.0);
+			left_plow.setPosition(0.0);
 		    }
 		    break;
 		}
@@ -79,6 +59,8 @@ public class Q1Run extends Hardware{
 		running = false;
 	    }
 	} else {
+	    left_drive.setPower(0.0);
+	    right_drive.setPower(0.0);
 	    telemetry.addData("02", "RecRunDone");
 	}
     }
