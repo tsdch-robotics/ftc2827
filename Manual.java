@@ -4,6 +4,11 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Manual extends Hardware {
 
+    PIDMotor left_arm_pid;
+    PIDMotor right_arm_pid;
+    int arm_target = 1000;
+    double arm_speed = 0.3;
+
     boolean gamepad1_x_pressed = false;
     boolean gamepad1_b_pressed = false;
 
@@ -37,27 +42,23 @@ public class Manual extends Hardware {
 	    right_plow.setPosition(1.0);
 	    left_plow.setPosition(0.0);
 	}
-	
-	final double ARM_POWER_UP = 0.3;
-	final double ARM_POWER_DOWN = -0.15;
-	double left_arm_power = 0;
-	double right_arm_power = 0;
 
 	//arms
-	if (gamepad2.left_bumper) {
-	    left_arm_power = ARM_POWER_UP;
-	} else if (gamepad2.left_trigger != 0.0) {
-	    left_arm_power = ARM_POWER_DOWN;
+	if (gamepad2.right_bumper || gamepad2.left_bumper) {
+	    right_arm_pid.setSpeed(arm_speed);
+	    left_arm_pid.setSpeed(arm_speed);
+	} else if (gamepad2.right_trigger != 0.0 ||
+		   gamepad2.left_trigger != 0.0) {
+	    right_arm_pid.setSpeed(-arm_speed);
+	    left_arm_pid.setSpeed(-arm_speed);
+	} else {
+	    right_arm_pid.setSpeed(0);
+	    left_arm_pid.setSpeed(0);
 	}
-
-	if (gamepad2.right_bumper) {
-	    right_arm_power = ARM_POWER_UP;
-	} else if (gamepad2.right_trigger != 0.0) {
-	    right_arm_power = ARM_POWER_DOWN;
+	if (gamepad2.b) {
+	    right_arm_pid.setPosition(arm_target);
+	    left_arm_pid.setPosition(arm_target);   
 	}
-	
-	right_arm.setPower(right_arm_power);
-	left_arm.setPower(left_arm_power);
 
 	//pullup
 	if(gamepad2.y){
@@ -80,7 +81,6 @@ public class Manual extends Hardware {
 	right_hook.setPosition(0.5 * (gamepad2.right_stick_y + 1.0));
 	
 	
-	
 	// update stuff
 	gamepad1_x_pressed = gamepad1.left_bumper;
 	gamepad1_b_pressed = gamepad1.right_bumper;
@@ -91,13 +91,21 @@ public class Manual extends Hardware {
 			  //+ right_climber.getPosition() + " "
 			  left_arm.getPower() + " "
 			  + right_arm.getPower() + " ");
-			  // + left_hook.getPosition() + " "
-			  // + right_hook.getPosition());
-    }
-    public void init_loop(){
 
+	right_arm_pid.update();
+	left_arm_pid.update();
     }
+
+    public void init_loop(){
+	right_arm_pid.resetEncoder();
+	left_arm_pid.resetEncoder();
+    }
+
     public void init(){
 	super.init();
+	right_arm_pid = new PIDMotor(right_arm);
+	right_arm_pid.setPower(1.0);
+	left_arm_pid = new PIDMotor(left_arm);
+	left_arm_pid.setPower(1.0);
     }
 }

@@ -50,8 +50,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      * The NullOp op mode
      */
     manager.register("NullOp", NullOp.class);
-    //manager.register("Manual", Manual.class);
-    //manager.register("Autonomous", Autonomous.class);
-    manager.register("TestAutonomous", TestAutonomous.class);
+    manager.register("Manual", Manual.class);
+    manager.register("Autonomous", Autonomous.class);
   }
 }

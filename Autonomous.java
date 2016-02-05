@@ -1,6 +1,5 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import java.util.ArrayList;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
 
@@ -13,91 +12,71 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Autonomous extends Hardware {
 
-    double motor_power = 0.0;
     int num_targets_set = 0;
     boolean target_reached = true;
-    int left_target = 0;
-    int right_target = 0;
-    boolean right_running = false;
-    boolean left_running = false;
+    PIDMotor left;
+    PIDMotor right;
+    
 
-    public Autonomous() {
-
-    }
+    public Autonomous() {}
 
     public void resetEncoders() {
-	left_drive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-	left_drive.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS );
-	right_drive.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
-	right_drive.setChannelMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS );
- }
+        left.resetEncoder();
+	right.resetEncoder();
+    }
 
-    public void setTarget(int left, int right) {
-	left_target = left;
-	right_target = left;
-	right_running = true;
-	left_running = true;
+    public void setPower(double power) {
+	left.setPower(power);
+	right.setPower(power);
+    }
+
+    public void setTarget(int left_targ, int right_targ) {
 	++num_targets_set;
 	target_reached = false;
+	left.setPosition(-left_targ);
+	right.setPosition(-right_targ);
 	resetEncoders();
     }
 
     public void runMotors() {
-
-	int ERROR_MARGIN = 10;
-	double kP = 0.1;
-
-	if (left_running || right_running) {
-	    int left_error = left_target;// - left_drive.getCurrentPosition();
-	    int right_error = right_target;// - right_drive.getCurrentPosition();
-
-	    telemetry.addData("left encoder", left_drive.getCurrentPosition());
-
-	    if (Math.abs(left_error) > ERROR_MARGIN) {
-		double left_power = Range.clip(motor_power*kP*left_error,-1.0,1.0);
-		telemetry.addData("left power", left_power);
-		left_drive.setPower(left_power);
-	    } else {
-		left_running = false;
-		if (!right_running) {
-		    target_reached = true;
-		}
-	    }
-
-	    if (Math.abs(right_error) > ERROR_MARGIN) {
-		double right_power = Range.clip(motor_power*kP*left_error,-1.0,1.0);
-		telemetry.addData("right power", right_power);
-		right_drive.setPower(right_power);
-	    } else {
-		right_running = false;
-		if (!right_running) {
-		    target_reached = true;
-		}
-	    }
-	} else {
-	    left_drive.setPower(0);
-	    right_drive.setPower(0);
-	}
+	left.update();
+	right.update();
+	target_reached = left.positionReached() && right.positionReached();
     }
 
     public void loop() {
-	telemetry.addData("Left power", left_drive.getPower());
-	telemetry.addData("Num targets", num_targets_set);
+
+	telemetry.addData("target reached", target_reached);
+	telemetry.addData("targets set", num_targets_set);
+	telemetry.addData("left encoder", left_drive.getCurrentPosition());
+	telemetry.addData("right encoder", right_drive.getCurrentPosition());
+
 	if (target_reached) {
 	    switch (num_targets_set) {
 	    case 0:
-		motor_power = 1.0;
+		setPower(1.0);
 		setTarget(1000,1000);
+		break;
+	    case 1:
+		setTarget(1000,-1000);
 		break;
 	    }
 	}
 	runMotors();
     }
 
-    public void init_loop(){
-
+    public void init_loop() {
+	target_reached = true;
+	num_targets_set = 0;
+	resetEncoders();
     }
-    public void init(){
+
+    public void init() {
 	super.init();
+	left = new PIDMotor(left_drive);
+	right = new PIDMotor(right_drive);
+	target_reached = true;
+	num_targets_set = 0;
+	resetEncoders();
     }
 }
