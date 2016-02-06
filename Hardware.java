@@ -30,7 +30,7 @@ public class Hardware extends RecRunOpMode
     boolean left_climb_out = false;
     boolean right_climb_out = false;
     
-    double upPower = 1.0;
+    double upPower = 0.25;
     double downPower = -1.0;
 
     double left_arm_pos = 0.0;
@@ -67,9 +67,9 @@ public class Hardware extends RecRunOpMode
 
 	left_plow = hardwareMap.servo.get("leftPlow");
 	right_plow = hardwareMap.servo.get("rightPlow");
-	left_plow.scaleRange(0.45, 1.0);
+	left_plow.scaleRange(0.25, 1.0);
 	right_plow.scaleRange(0.0, 0.75);
-        right_plow.setPosition(0.0);
+	right_plow.setPosition(0.0);
 	left_plow.setPosition(1.0);
 
 	left_climber = hardwareMap.servo.get("leftClimber");
@@ -81,8 +81,8 @@ public class Hardware extends RecRunOpMode
 	right_arm = hardwareMap.dcMotor.get("rightArm");
 	right_arm.setDirection(DcMotor.Direction.REVERSE);
 	
-	left_climber.setPosition(1.0);
-	right_climber.setPosition(0.0);
+	//	left_climber.setPosition(1.0);
+	//	right_climber.setPosition(0.0);
 	left_hook.setPosition(0.5);
 	right_hook.setPosition(0.5);
     }

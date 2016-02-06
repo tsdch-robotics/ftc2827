@@ -12,6 +12,9 @@ public class Manual extends Hardware {
     boolean gamepad1_x_pressed = false;
     boolean gamepad1_b_pressed = false;
 
+    double left_plow_position = 1.0;
+    double right_plow_position = 0.0;
+
     public Manual(){
 
     }
@@ -36,11 +39,17 @@ public class Manual extends Hardware {
 
 	//plow
 	if (gamepad1.y) {
-	    right_plow.setPosition(0.0);
-	    left_plow.setPosition(1.0);
+	    right_plow_position -= 0.01;
+	    left_plow_position += 0.01;
+	    right_plow_position = right_plow_position > 0.0 ? right_plow_position : 0.0;
+	    left_plow_position = left_plow_position < 1.0 ? left_plow_position : 1.0;	    
 	} else if (gamepad1.a) {
 	    right_plow.setPosition(1.0);
 	    left_plow.setPosition(0.0);
+	    right_plow_position += 0.01;
+	    left_plow_position -= 0.01;
+	    right_plow_position = right_plow_position < 1.0 ? right_plow_position : 1.0;
+	    left_plow_position = left_plow_position > 0.0 ? left_plow_position : 0.0;	    
 	}
 
 	//arms
@@ -59,12 +68,17 @@ public class Manual extends Hardware {
 	    right_arm_pid.setPosition(arm_target);
 	    left_arm_pid.setPosition(arm_target);   
 	}
-
 	//pullup
 	if(gamepad2.y){
 	    left_pullup.setPower(upPower);
 	    right_pullup.setPower(upPower);
 	} else if(gamepad2.a){
+	    left_pullup.setPower(downPower);
+	    right_pullup.setPower(downPower);
+	} else if(gamepad1.dpad_up){
+	    left_pullup.setPower(upPower);
+	    right_pullup.setPower(upPower);
+	} else if(gamepad1.dpad_down){
 	    left_pullup.setPower(downPower);
 	    right_pullup.setPower(downPower);
 	} else if (Math.abs(gamepad2.left_stick_y) > 0.1
@@ -84,6 +98,9 @@ public class Manual extends Hardware {
 	// update stuff
 	gamepad1_x_pressed = gamepad1.left_bumper;
 	gamepad1_b_pressed = gamepad1.right_bumper;
+
+	left_plow.setPosition(left_plow_position);
+	right_plow.setPosition(right_plow_position);
 
 	telemetry.addData("lp", "Left Power" + l_power);
 	telemetry.addData("rp", "Right Power" + r_power);
