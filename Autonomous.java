@@ -33,8 +33,8 @@ public class Autonomous extends Hardware {
     public void setTarget(int left_targ, int right_targ) {
 	++num_targets_set;
 	target_reached = false;
-	left.setPosition(-left_targ);
-	right.setPosition(-right_targ);
+	left.setPosition(left_targ);
+	right.setPosition(right_targ);
 	resetEncoders();
     }
 
@@ -50,12 +50,13 @@ public class Autonomous extends Hardware {
 	telemetry.addData("targets set", num_targets_set);
 	telemetry.addData("left encoder", left_drive.getCurrentPosition());
 	telemetry.addData("right encoder", right_drive.getCurrentPosition());
+	telemetry.addData("current speed", left.getCurrentSpeed());
 
 	if (target_reached) {
 	    switch (num_targets_set) {
 	    case 0:
 		setPower(1.0);
-		setTarget(1000,1000);
+		setTarget(100000,100000);
 		break;
 	    case 1:
 		setTarget(1000,-1000);

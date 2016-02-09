@@ -13,6 +13,7 @@ public class PIDMotor {
     Mode mode = Mode.POSITION;
     DcMotor motor;
     boolean reset_encoder = true;
+    double i_error = 0.0;
 
     double speed = 0;
     double current_speed = 0;
@@ -22,7 +23,7 @@ public class PIDMotor {
     int position = 0;
     boolean position_reached = true;
 
-    final int MAX_CLICKS_PER_UPDATE = 50;
+    final int MAX_CLICKS_PER_UPDATE = 20;
 
     public PIDMotor(DcMotor _motor) {
 	motor = _motor;
@@ -39,9 +40,14 @@ public class PIDMotor {
 	current_speed = 0;
     }
 
+    double old_target = 0.0;
+
     public void setSpeed(double target) {
-	speed = target;
-	current_speed = target;
+	if (speed != target) {
+	    speed = target;
+	    current_speed = target;
+	    i_error = 0;
+	}
 	mode = Mode.SPEED;
     }
 
@@ -60,18 +66,17 @@ public class PIDMotor {
     }
 
     public double getCurrentSpeed() {
-	return (motor.getCurrentPosition()-last_clicks);
+	return (motor.getCurrentPosition()-last_clicks)/MAX_CLICKS_PER_UPDATE;
     }
 
     public void update() {
-
-	double min_power = 0.1;
 	double kP, kI, kD;
+	double min_power = 0.1;
 	
 	if (reset_encoder) {
 	    motor.setPower(0);
 	    setDriveMode(DcMotorController.RunMode.RESET_ENCODERS);
-	    if (motor.getCurrentPosition() == 0) {
+	    if (motor.getCurrentPosition() == 0){
 		reset_encoder = false;
 	    }
 	} else {
@@ -91,9 +96,12 @@ public class PIDMotor {
 		}
 		break;
 	    case SPEED:
-		kP = 0.001;
+		kP = 0.01;
+		kI = 0;//0.005;
 		double s_error = speed - getCurrentSpeed();
-		current_speed += kP*s_error;
+		i_error += s_error;
+		current_speed += kP*s_error + kI*i_error;
+		Range.clip(current_speed, -1.0, 1.0);
 		motor.setPower(current_speed);
 	    }
 	}

@@ -56,7 +56,7 @@ public class Hardware extends RecRunOpMode
 
 	left_drive = hardwareMap.dcMotor.get("leftDrive");
 	right_drive = hardwareMap.dcMotor.get("rightDrive");
-	left_drive.setDirection(DcMotor.Direction.REVERSE);
+	right_drive.setDirection(DcMotor.Direction.REVERSE);
 
 	left_pullup = hardwareMap.dcMotor.get("leftPullup");
 	right_pullup = hardwareMap.dcMotor.get("rightPullup");
