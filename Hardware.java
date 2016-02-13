@@ -41,12 +41,12 @@ public class Hardware extends RecRunOpMode
     }
 
     public void toggleLeftClimber() {
-	left_climber.setPosition(left_climb_out ? 1.0 : 0.5);
+	left_climber.setPosition(left_climb_out ? 0.0 : 0.5);
 	left_climb_out = !left_climb_out;
     }
 
     public void toggleRightClimber() {
-	right_climber.setPosition(right_climb_out ? 0.0 : 0.5);
+	right_climber.setPosition(right_climb_out ? 1.0 : 0.5);
 	right_climb_out = !right_climb_out;
     }
 
@@ -81,8 +81,8 @@ public class Hardware extends RecRunOpMode
 	right_arm = hardwareMap.dcMotor.get("rightArm");
 	right_arm.setDirection(DcMotor.Direction.REVERSE);
 	
-	//	left_climber.setPosition(1.0);
-	//	right_climber.setPosition(0.0);
+	left_climber.setPosition(0.0);
+	right_climber.setPosition(1.0);
 	left_hook.setPosition(0.5);
 	right_hook.setPosition(0.5);
     }

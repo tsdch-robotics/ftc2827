@@ -22,10 +22,10 @@ public class Manual extends Hardware {
     public void loop() {
 
 	//driving
-	float r_power = -gamepad1.left_stick_y;
-	float l_power = -gamepad1.right_stick_y;
-	l_power = Range.clip(l_power, -1, 1);
-	r_power = Range.clip(r_power, -1, 1);
+	double r_power = -gamepad1.left_stick_y;
+	double l_power = -gamepad1.right_stick_y;
+	l_power = Range.clip(l_power, -0.99999999,0.999999999);
+	r_power = Range.clip(r_power, -0.99999999,0.999999999);
 	left_drive.setPower(r_power);
 	right_drive.setPower(l_power);
 
@@ -64,9 +64,10 @@ public class Manual extends Hardware {
 		       gamepad2.left_trigger != 0.0) {
 		right_arm_pid.setSpeed(-arm_speed);
 		left_arm_pid.setSpeed(-arm_speed);
-	    } else {
-		right_arm_pid.setSpeed(0.0);
-		left_arm_pid.setSpeed(0.0);
+	    } else if (right_arm_pid.mode == PIDMotor.Mode.SPEED
+		       && left_arm_pid.mode == PIDMotor.Mode.SPEED) {
+		right_arm_pid.setPosition(right_arm_pid.getCurrentPosition());
+		left_arm_pid.setPosition(left_arm_pid.getCurrentPosition());
 	    }
 	}
 	//pullup
@@ -82,14 +83,18 @@ public class Manual extends Hardware {
 	} else if(gamepad1.dpad_down){
 	    left_pullup.setPower(downPower);
 	    right_pullup.setPower(downPower);
-	} else if (Math.abs(gamepad2.left_stick_y) > 0.1
-		   && Math.abs(gamepad2.right_stick_y) > 0.1) {
-	    left_pullup.setPower(-0.5*gamepad2.right_stick_y);
-	    right_pullup.setPower(-0.5*gamepad2.right_stick_y);
+	} else if (gamepad2.left_stick_y > 0.25
+	    && gamepad2.right_stick_y > 0.25) {
+	    left_pullup.setPower(-0.5);
+	    right_pullup.setPower(-0.5);
+	} else if (gamepad2.left_stick_y < -0.25
+		   && gamepad2.right_stick_y < -0.25) {
+	    left_pullup.setPower(0.5);
+	    right_pullup.setPower(0.5);
 	} else {
 	    left_pullup.setPower(0);
 	    right_pullup.setPower(0);
-	}
+	}	    
 
 	//hooks
 	left_hook.setPosition(0.5 * (gamepad2.left_stick_y + 1.0));
@@ -102,7 +107,10 @@ public class Manual extends Hardware {
 
 	left_plow.setPosition(left_plow_position);
 	right_plow.setPosition(right_plow_position);
-
+	
+	telemetry.addData("md", "Mode" + right_arm_pid.mode);
+	telemetry.addData("pr", "Position reached" + right_arm_pid.position_reached);
+	telemetry.addData("ie", "I error" + right_arm_pid.p_i_error);
 	telemetry.addData("lp", "Left Power" + l_power);
 	telemetry.addData("rp", "Right Power" + r_power);
 	telemetry.addData("sv", //left_climber.getPosition() + " "
