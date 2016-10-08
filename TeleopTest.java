@@ -80,6 +80,27 @@ public class TeleopTest extends OpMode {
         robot.FrontRightDrive.setPower(ThrottleRight);
         robot.RearRightDrive.setPower(ThrottleRight);
 
+        if(gamepad1.right_bumper) {
+            robot.Arm.setPower(1.0);
+        }
+        else {
+            robot.Arm.setPower(0.0);
+        }
+
+        if(gamepad1.y) {
+            robot.Trigger.setPower(1.0);
+        }
+        else {
+            robot.Trigger.setPower(0.0);
+        }
+
+        if(gamepad1.a) {
+            robot.Trigger.setPower(1.0);
+        }
+        else {
+            robot.Trigger.setPower(0.0);
+        }
+
         // telemetry
         telemetry.addData("left", "%.2f", ThrottleLeft);
         telemetry.addData("right", "%.2f", ThrottleRight);

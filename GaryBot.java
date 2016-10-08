@@ -27,11 +27,14 @@ public class GaryBot {
     // define all hardware on robot
     public DcMotorController FrontDriveMC;
     public DcMotorController RearDriveMC;
+    public DcMotorController BallCollectionMC;
 
     public DcMotor FrontLeftDrive;
     public DcMotor FrontRightDrive;
     public DcMotor RearLeftDrive;
     public DcMotor RearRightDrive;
+    public DcMotor Arm;
+    public DcMotor Trigger;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -46,6 +49,7 @@ public class GaryBot {
         // initialize controllers - motor and servo
         FrontDriveMC = hwMap.dcMotorController.get("FrontDriveMC");
         RearDriveMC = hwMap.dcMotorController.get("RearDriveMC");
+        BallCollectionMC = hwMap.dcMotorController.get("ball collection");
 
         // initialize motors
         FrontLeftDrive = hwMap.dcMotor.get("FrontLeftDrive");
@@ -54,12 +58,17 @@ public class GaryBot {
         RearLeftDrive = hwMap.dcMotor.get("RearLeftDrive");
         RearLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         RearRightDrive = hwMap.dcMotor.get("RearRightDrive");
+        Arm = hwMap.dcMotor.get("arm");
+        Trigger = hwMap.dcMotor.get("trigger");
 
         // Set all motors to zero power
         FrontLeftDrive.setPower(0.0);
         FrontRightDrive.setPower(0.0);
         RearLeftDrive.setPower(0.0);
         RearRightDrive.setPower(0.0);
+        Arm.setPower(0.0);
+        Trigger.setPower(0.0);
+
     }
 
     /***
