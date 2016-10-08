@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -24,13 +25,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class GaryBot {
     // define all hardware on robot
-    public DcMotorController Front;
-    public DcMotorController Back;
+    public DcMotorController FrontDriveMC;
+    public DcMotorController RearDriveMC;
 
-    public DcMotor FrontMotorLeft;
-    public DcMotor FrontMotorRight;
-    public DcMotor BackMotorLeft;
-    public DcMotor BackMotorRight;
+    public DcMotor FrontLeftDrive;
+    public DcMotor FrontRightDrive;
+    public DcMotor RearLeftDrive;
+    public DcMotor RearRightDrive;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -43,22 +44,22 @@ public class GaryBot {
         hwMap = ahwMap; // reference to hardware map
 
         // initialize controllers - motor and servo
-        Front = hwMap.dcMotorController.get("Motor 2");
-        Back = hwMap.dcMotorController.get("Motor 1");
+        FrontDriveMC = hwMap.dcMotorController.get("FrontDriveMC");
+        RearDriveMC = hwMap.dcMotorController.get("RearDriveMC");
 
         // initialize motors
-        FrontMotorLeft = hwMap.dcMotor.get("FrontMotorLeft");
-        FrontMotorLeft.setDirection(DcMotor.Direction.REVERSE);
-        FrontMotorRight = hwMap.dcMotor.get("FrontMotorRight");
-        BackMotorLeft = hwMap.dcMotor.get("BackMotorLeft");
-        BackMotorLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackMotorRight = hwMap.dcMotor.get("BackMotorRight");
+        FrontLeftDrive = hwMap.dcMotor.get("FrontLeftDrive");
+        FrontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        FrontRightDrive = hwMap.dcMotor.get("FrontRightDrive");
+        RearLeftDrive = hwMap.dcMotor.get("RearLeftDrive");
+        RearLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        RearRightDrive = hwMap.dcMotor.get("RearRightDrive");
 
         // Set all motors to zero power
-        FrontMotorLeft.setPower(0.0);
-        FrontMotorRight.setPower(0.0);
-        BackMotorLeft.setPower(0.0);
-        BackMotorRight.setPower(0.0);
+        FrontLeftDrive.setPower(0.0);
+        FrontRightDrive.setPower(0.0);
+        RearLeftDrive.setPower(0.0);
+        RearRightDrive.setPower(0.0);
     }
 
     /***

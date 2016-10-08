@@ -38,11 +38,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Tele test", group="GaryBot")
 public class TeleopTest extends OpMode {
-
     /* Declare OpMode members. */
-    GaryBot robot   = new GaryBot();   // Use HaramBot's hardware
+    GaryBot robot   = new GaryBot();   // Use GaryBot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
+    // constants
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
 
@@ -74,13 +74,11 @@ public class TeleopTest extends OpMode {
         double ThrottleLeft = -gamepad1.left_stick_y;
         double ThrottleRight = -gamepad1.right_stick_y;
 
-        robot.FrontMotorLeft.setPower(ThrottleLeft);
-        robot.BackMotorLeft.setPower(ThrottleLeft);
+        robot.FrontLeftDrive.setPower(ThrottleLeft);
+        robot.RearLeftDrive.setPower(ThrottleLeft);
 
-        robot.FrontMotorRight.setPower(ThrottleRight);
-        robot.BackMotorRight.setPower(ThrottleRight);
-
-
+        robot.FrontRightDrive.setPower(ThrottleRight);
+        robot.RearRightDrive.setPower(ThrottleRight);
 
         // telemetry
         telemetry.addData("left", "%.2f", ThrottleLeft);
