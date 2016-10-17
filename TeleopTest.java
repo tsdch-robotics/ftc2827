@@ -95,12 +95,38 @@ public class TeleopTest extends OpMode {
         }
 
         if(gamepad1.a) {
-            robot.Trigger.setPower(1.0);
+            robot.Trigger.setPower(-1.0);
         }
         else {
             robot.Trigger.setPower(0.0);
         }
 
+        // strafing controls
+        if(gamepad1.dpad_left) {
+            robot.FrontLeftDrive.setPower(-1.0);
+            robot.RearLeftDrive.setPower(1.0);
+            robot.FrontRightDrive.setPower(1.0);
+            robot.RearRightDrive.setPower(-1.0);
+        }
+        else {
+            robot.FrontLeftDrive.setPower(0.0);
+            robot.RearLeftDrive.setPower(0.0);
+            robot.FrontRightDrive.setPower(0.0);
+            robot.RearRightDrive.setPower(0.0);
+        }
+
+        if(gamepad1.dpad_right) {
+            robot.FrontLeftDrive.setPower(1.0);
+            robot.RearLeftDrive.setPower(-1.0);
+            robot.FrontRightDrive.setPower(-1.0);
+            robot.RearRightDrive.setPower(1.0);
+        }
+        else {
+            robot.FrontLeftDrive.setPower(0.0);
+            robot.RearLeftDrive.setPower(0.0);
+            robot.FrontRightDrive.setPower(0.0);
+            robot.RearRightDrive.setPower(0.0);
+        }
         // telemetry
         telemetry.addData("left", "%.2f", ThrottleLeft);
         telemetry.addData("right", "%.2f", ThrottleRight);
