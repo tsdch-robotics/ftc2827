@@ -67,13 +67,13 @@ public class AutonomousBeacons extends LinearOpMode {
     // time: positive decimal number (e.g. 1.1)
     public void move(int direction, double time) {
         long timeInMs = (long)(time*1000);
-        robot.FrontLeftDrive.setPower(FORWARD_SPEED*direction);
-        robot.FrontRightDrive.setPower(FORWARD_SPEED*direction);
+        //robot.FrontLeftDrive.setPower(FORWARD_SPEED*direction);
+        //robot.FrontRightDrive.setPower(FORWARD_SPEED*direction);
         robot.RearLeftDrive.setPower(FORWARD_SPEED*direction);
         robot.RearRightDrive.setPower(FORWARD_SPEED*direction);
         sleep(timeInMs);
-        robot.FrontLeftDrive.setPower(0.0);
-        robot.FrontRightDrive.setPower(0.0);
+        //robot.FrontLeftDrive.setPower(0.0);
+        //robot.FrontRightDrive.setPower(0.0);
         robot.RearLeftDrive.setPower(0.0);
         robot.RearRightDrive.setPower(0.0);
     }
@@ -83,13 +83,13 @@ public class AutonomousBeacons extends LinearOpMode {
     // time: positive decimal number (e.g. 1.1)
     public void turn(int direction, double time) {
         long timeInMs = (long)(time*1000);
-        robot.FrontLeftDrive.setPower(TURN_SPEED*direction);
-        robot.FrontRightDrive.setPower(-TURN_SPEED*direction);
+        //robot.FrontLeftDrive.setPower(TURN_SPEED*direction);
+        //robot.FrontRightDrive.setPower(-TURN_SPEED*direction);
         robot.RearLeftDrive.setPower(TURN_SPEED*direction);
         robot.RearRightDrive.setPower(-TURN_SPEED*direction);
         sleep(timeInMs);
-        robot.FrontLeftDrive.setPower(0.0);
-        robot.FrontRightDrive.setPower(0.0);
+        //robot.FrontLeftDrive.setPower(0.0);
+        //robot.FrontRightDrive.setPower(0.0);
         robot.RearLeftDrive.setPower(0.0);
         robot.RearRightDrive.setPower(0.0);
     }

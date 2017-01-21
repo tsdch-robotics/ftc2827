@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
@@ -25,16 +27,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class GaryBot {
     // define all hardware on robot
-    public DcMotorController FrontDriveMC;
+    //public DcMotorController FrontDriveMC;
     public DcMotorController RearDriveMC;
     public DcMotorController BallCollectionMC;
-
-    public DcMotor FrontLeftDrive;
-    public DcMotor FrontRightDrive;
+    public ServoController servos;
+    public DeviceInterfaceModule DIM;
     public DcMotor RearLeftDrive;
     public DcMotor RearRightDrive;
     public DcMotor Arm;
-    public DcMotor Trigger;
+    public DcMotor Conveyor;
+    public Servo ServoMiddle;
+    public Servo ServoRight;
+
+
+    public ColorSensor lineFollowr;
+    public ColorSensor lineFollowl;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -47,28 +54,33 @@ public class GaryBot {
         hwMap = ahwMap; // reference to hardware map
 
         // initialize controllers - motor and servo
-        FrontDriveMC = hwMap.dcMotorController.get("FrontDriveMC");
+        //FrontDriveMC = hwMap.dcMotorController.get("FrontDriveMC");
         RearDriveMC = hwMap.dcMotorController.get("RearDriveMC");
-        BallCollectionMC = hwMap.dcMotorController.get("ball collection");
+        BallCollectionMC = hwMap.dcMotorController.get("BallCollectionMC");
+        servos = hwMap.servoController.get("servos");
+        DIM = hwMap.deviceInterfaceModule.get("Device Interface Module");
 
         // initialize motors
-        FrontLeftDrive = hwMap.dcMotor.get("FrontLeftDrive");
-        FrontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        FrontRightDrive = hwMap.dcMotor.get("FrontRightDrive");
         RearLeftDrive = hwMap.dcMotor.get("RearLeftDrive");
         RearLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         RearRightDrive = hwMap.dcMotor.get("RearRightDrive");
-        Arm = hwMap.dcMotor.get("arm");
-        Trigger = hwMap.dcMotor.get("trigger");
+       // RearRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        Arm = hwMap.dcMotor.get("Arm");
+        Conveyor = hwMap.dcMotor.get("Conveyor");
+
+        // initialize servos
+        ServoMiddle = hwMap.servo.get("sMiddle");
+        ServoRight = hwMap.servo.get("sRight");
+
+        // initialize sensors
+        lineFollowr = hwMap.colorSensor.get("lineFollowr");
+        lineFollowl = hwMap.colorSensor.get("lineFollowl");
 
         // Set all motors to zero power
-        FrontLeftDrive.setPower(0.0);
-        FrontRightDrive.setPower(0.0);
         RearLeftDrive.setPower(0.0);
         RearRightDrive.setPower(0.0);
         Arm.setPower(0.0);
-        Trigger.setPower(0.0);
-
+        Conveyor.setPower(0.0);
     }
 
     /***

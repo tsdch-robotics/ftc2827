@@ -34,6 +34,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Tele test", group="GaryBot")
@@ -71,57 +72,63 @@ public class TeleopTest extends OpMode {
     // put driver controls (drive motors, servos, etc.) HERE
     @Override
     public void loop() {
-        double ThrottleLeft = -gamepad1.left_stick_y;
-        double ThrottleRight = -gamepad1.right_stick_y;
+        double ThrottleLeft =  gamepad1.left_stick_y;
+        double ThrottleRight = gamepad1.right_stick_y;
 
-
-        if(gamepad1.right_bumper) {
-            robot.Arm.setPower(1.0);
+        if(gamepad2.right_bumper) {
+            robot.Arm.setPower(-1.0);
         }
         else {
             robot.Arm.setPower(0.0);
         }
 
-        if(gamepad1.y) {
-            robot.Trigger.setPower(1.0);
+        if(gamepad2.left_bumper) {
+            robot.Conveyor.setPower(-1.0);
         }
         else {
-            robot.Trigger.setPower(0.0);
+            robot.Conveyor.setPower(0.0);
         }
 
-        if(gamepad1.a) {
-            robot.Trigger.setPower(-1.0);
+        // right beacon trigger
+        if (gamepad2.y) {
+            robot.ServoRight.setPosition(Servo.MAX_POSITION);
         }
-        else {
-            robot.Trigger.setPower(0.0);
+        if (gamepad2.a) {
+            robot.ServoRight.setPosition(Servo.MIN_POSITION);
         }
+
+        // left beacon trigger
+        if (gamepad2.dpad_up) {
+            robot.ServoMiddle.setPosition(Servo.MAX_POSITION);
+        }
+        if (gamepad2.dpad_down) {
+            robot.ServoMiddle.setPosition(Servo.MIN_POSITION);
+        }
+
 
         // strafing controls
-        if(gamepad1.dpad_left) {
-            robot.FrontLeftDrive.setPower(-1.0);
-            robot.RearLeftDrive.setPower(1.0);
-            robot.FrontRightDrive.setPower(1.0);
-            robot.RearRightDrive.setPower(-1.0);
-        }
+        //if(gamepad1.dpad_left) {
+            //robot.FrontLeftDrive.setPower(-1.0);
+            //robot.RearLeftDrive.setPower(1.0);
+            //robot.FrontRightDrive.setPower(1.0);
+            //robot.RearRightDrive.setPower(-1.0);
+        //}
 
-        else if(gamepad1.dpad_right) {
-            robot.FrontLeftDrive.setPower(1.0);
-            robot.RearLeftDrive.setPower(-1.0);
-            robot.FrontRightDrive.setPower(-1.0);
-            robot.RearRightDrive.setPower(1.0);
-        }
-        else {
+        //else if(gamepad1.dpad_right) {
+            //robot.FrontLeftDrive.setPower(1.0);
+            //robot.RearLeftDrive.setPower(-1.0);
+            //robot.FrontRightDrive.setPower(-1.0);
+            //robot.RearRightDrive.setPower(-1.0);
+        //robot.FrontLeftDrive.setPower(ThrottleLeft);
+        robot.RearLeftDrive.setPower(ThrottleLeft);
 
-            robot.FrontLeftDrive.setPower(ThrottleLeft);
-            robot.RearLeftDrive.setPower(ThrottleLeft);
+        //robot.FrontRightDrive.setPower(ThrottleRight);
+        robot.RearRightDrive.setPower(ThrottleRight);
 
-            robot.FrontRightDrive.setPower(ThrottleRight);
-            robot.RearRightDrive.setPower(ThrottleRight);
-        }
 
         // telemetry
         telemetry.addData("left", "%.2f", ThrottleLeft);
         telemetry.addData("right", "%.2f", ThrottleRight);
-        updateTelemetry(telemetry);
+        //updateTelemetry(telemetry);
     }
-}
+                }
